@@ -104,7 +104,6 @@ fn exec<AoC: AdventOfCode + 'static>() -> Option<Timing> {
     let input_name = format!("day{:02}.txt", AoC::DAY);
     let input_path = Path::new("./input/").join(&input_name);
 
-    // println!("Solution");
     let input = fs::read_to_string(input_path).ok()?;
     exec_once::<AoC>(input)
 }

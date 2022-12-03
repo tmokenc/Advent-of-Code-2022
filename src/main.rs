@@ -1,5 +1,6 @@
 mod day01;
 mod day02;
+mod day03;
 
 pub mod utils;
 pub use utils::*;
@@ -112,6 +113,7 @@ fn run(day: u8) -> Option<Timing> {
     match day {
         01 => exec::<day01::CalorieCounting>(),
         02 => exec::<day02::RockPaperScissors>(),
+        03 => exec::<day03::RucksackReorganization>(),
         26.. => {
             println!("{day} is not a valid day for AdventOfCode");
             None

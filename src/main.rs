@@ -2,6 +2,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 
 pub mod utils;
 pub use utils::*;
@@ -28,6 +29,7 @@ where
 
     fn part1(&self) -> Output;
     fn part2(&self) -> Output;
+
     fn new_unwrap(input: &str) -> Self
     where
         Self: Sized,
@@ -41,10 +43,61 @@ where
             ),
         }
     }
+
+    fn exec() -> Option<Timing>
+    where
+        Self: Sized,
+    {
+        let title = format!("DAY {} - {}", Self::DAY, Self::TITLE);
+        println!("{}", title.bold());
+
+        let input_name = format!("day{:02}.txt", Self::DAY);
+        let input_path = Path::new("./input/").join(&input_name);
+
+        let input = fs::read_to_string(input_path).ok()?;
+
+        let (f, parse_time) = time(|| Self::new(input.trim()));
+
+        let f = match f {
+            Some(f) => f,
+            None => {
+                println!("Cannot parse the input");
+                return None;
+            }
+        };
+
+        println!(
+            "Input parsed in {}",
+            format_duration(parse_time).bright_magenta()
+        );
+
+        let (res, part1_time) = time(|| f.part1());
+        println!(
+            "Part 1: {} ({}) (total {})",
+            res,
+            format_duration(part1_time).cyan(),
+            format_duration(part1_time + parse_time).bright_cyan(),
+        );
+
+        let (res, part2_time) = time(|| f.part2());
+        println!(
+            "Part 2: {} ({}) (total {})",
+            res,
+            format_duration(part2_time).cyan(),
+            format_duration(part2_time + parse_time).bright_cyan(),
+        );
+
+        Some(Timing {
+            title: Self::TITLE,
+            parsing: parse_time,
+            part1: part1_time,
+            part2: part2_time,
+        })
+    }
 }
 
 #[derive(Clone, Copy)]
-struct Timing {
+pub struct Timing {
     title: &'static str,
     parsing: Duration,
     part1: Duration,
@@ -59,63 +112,13 @@ fn time<T>(f: impl Fn() -> T) -> (T, Duration) {
     (res, duration)
 }
 
-fn exec_once<AoC: AdventOfCode + 'static>(input: String) -> Option<Timing> {
-    let (f, parse_time) = time(|| AoC::new(input.trim()));
-
-    let f = match f {
-        Some(f) => f,
-        None => {
-            println!("Cannot parse the input");
-            return None;
-        }
-    };
-
-    println!(
-        "Input parsed in {}",
-        format_duration(parse_time).bright_magenta()
-    );
-
-    let (res, part1_time) = time(|| f.part1());
-    println!(
-        "Part 1: {} ({}) (total {})",
-        res,
-        format_duration(part1_time).cyan(),
-        format_duration(part1_time + parse_time).bright_cyan(),
-    );
-
-    let (res, part2_time) = time(|| f.part2());
-    println!(
-        "Part 2: {} ({}) (total {})",
-        res,
-        format_duration(part2_time).cyan(),
-        format_duration(part2_time + parse_time).bright_cyan(),
-    );
-
-    Some(Timing {
-        title: AoC::TITLE,
-        parsing: parse_time,
-        part1: part1_time,
-        part2: part2_time,
-    })
-}
-
-fn exec<AoC: AdventOfCode + 'static>() -> Option<Timing> {
-    let title = format!("DAY {} - {}", AoC::DAY, AoC::TITLE);
-    println!("{}", title.bold());
-
-    let input_name = format!("day{:02}.txt", AoC::DAY);
-    let input_path = Path::new("./input/").join(&input_name);
-
-    let input = fs::read_to_string(input_path).ok()?;
-    exec_once::<AoC>(input)
-}
-
 fn run(day: u8) -> Option<Timing> {
     match day {
-        01 => exec::<day01::CalorieCounting>(),
-        02 => exec::<day02::RockPaperScissors>(),
-        03 => exec::<day03::RucksackReorganization>(),
-        04 => exec::<day04::CampCleanup>(),
+        01 => day01::CalorieCounting::exec(),
+        02 => day02::RockPaperScissors::exec(),
+        03 => day03::RucksackReorganization::exec(),
+        04 => day04::CampCleanup::exec(),
+        05 => day05::SupplyStacks::exec(),
         26.. => {
             println!("{day} is not a valid day for AdventOfCode");
             None

@@ -55,7 +55,7 @@ impl crate::AdventOfCode for RockPaperScissors {
                 ('A', 'Y') | ('B', 'X') | ('C', 'Z') => 1,
                 ('A', 'Z') | ('B', 'Y') | ('C', 'X') => 2,
                 ('A', 'X') | ('B', 'Z') | ('C', 'Y') => 3,
-                _ => 0
+                _ => 0,
             };
         }
 

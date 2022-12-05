@@ -28,7 +28,11 @@ impl crate::AdventOfCode for CalorieCounting {
     }
 
     fn part1(&self) -> u64 {
-        self.bags.iter().map(|v| v.iter().sum()).max().unwrap_or_default()
+        self.bags
+            .iter()
+            .map(|v| v.iter().sum())
+            .max()
+            .unwrap_or_default()
     }
 
     fn part2(&self) -> u64 {

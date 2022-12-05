@@ -56,7 +56,7 @@ where
 
         let input = fs::read_to_string(input_path).ok()?;
 
-        let (f, parse_time) = time(|| Self::new(input.trim()));
+        let (f, parse_time) = time(|| Self::new(&input));
 
         let f = match f {
             Some(f) => f,

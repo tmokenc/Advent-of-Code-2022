@@ -65,7 +65,9 @@ impl crate::AdventOfCode for RucksackReorganization {
                 list3[char_to_idx(ch)] = true;
             }
 
-            priorities += (1..=52).filter(|&v| list[v] && list2[v] && list3[v]).sum::<usize>() as u64;
+            priorities += (1..=52)
+                .filter(|&v| list[v] && list2[v] && list3[v])
+                .sum::<usize>() as u64;
         }
 
         priorities

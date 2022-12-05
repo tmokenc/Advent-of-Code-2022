@@ -46,7 +46,10 @@ impl crate::AdventOfCode for CampCleanup {
     }
 
     fn part1(&self) -> u64 {
-        self.pairs.iter().filter(|(a, b)| a.contains(b) || b.contains(a)).count() as u64
+        self.pairs
+            .iter()
+            .filter(|(a, b)| a.contains(b) || b.contains(a))
+            .count() as u64
     }
 
     fn part2(&self) -> u64 {

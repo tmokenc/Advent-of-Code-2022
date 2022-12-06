@@ -3,6 +3,7 @@ mod day02;
 mod day03;
 mod day04;
 mod day05;
+mod day06;
 
 pub mod utils;
 pub use utils::*;
@@ -119,6 +120,7 @@ fn run(day: u8) -> Option<Timing> {
         03 => day03::RucksackReorganization::exec(),
         04 => day04::CampCleanup::exec(),
         05 => day05::SupplyStacks::exec(),
+        06 => day06::TuningTrouble::exec(),
         26.. => {
             println!("{day} is not a valid day for AdventOfCode");
             None

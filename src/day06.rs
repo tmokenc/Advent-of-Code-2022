@@ -2,6 +2,22 @@ pub struct TuningTrouble {
     buffer: Vec<char>,
 }
 
+fn tuning_trouble<const N: usize>(buffer: &[char]) -> usize {
+    let mut count = N;
+    let mut chars: [char; N] = buffer[..N].try_into().unwrap();
+
+    while !is_unique_arr(&chars) {
+        let Some(ch) = buffer.get(count) else {
+            break;
+        };
+
+        chars[count % N] = *ch;
+        count += 1;
+    }
+
+    count
+}
+
 fn is_unique_arr(arr: &[char]) -> bool {
     for i in 0..(arr.len()-1) {
         for j in (i+1)..arr.len() {
@@ -14,7 +30,7 @@ fn is_unique_arr(arr: &[char]) -> bool {
     true
 }
 
-impl crate::AdventOfCode for TuningTrouble {
+impl crate::AdventOfCode<usize> for TuningTrouble {
     const TITLE: &'static str = "Tuning Trouble";
     const DAY: u8 = 6;
 
@@ -24,36 +40,12 @@ impl crate::AdventOfCode for TuningTrouble {
         })
     }
 
-    fn part1(&self) -> u64 {
-        let mut count = 4;
-        let mut chars: [char; 4] = self.buffer[..4].try_into().unwrap();
-
-        while !is_unique_arr(&chars) {
-            let Some(ch) = self.buffer.get(count) else {
-                break;
-            };
-
-            chars[count % 4] = *ch;
-            count += 1;
-        }
-
-        count as u64
+    fn part1(&self) -> usize {
+        tuning_trouble::<4>(&self.buffer)
     }
 
-    fn part2(&self) -> u64 {
-        let mut count = 14;
-        let mut chars: [char; 14] = self.buffer[..14].try_into().unwrap();
-
-        while !is_unique_arr(&chars) {
-            let Some(ch) = self.buffer.get(count) else {
-                break;
-            };
-
-            chars[count % 14] = *ch;
-            count += 1;
-        }
-
-        count as u64
+    fn part2(&self) -> usize {
+        tuning_trouble::<14>(&self.buffer)
     }
 }
 

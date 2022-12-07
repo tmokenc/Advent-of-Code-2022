@@ -19,8 +19,8 @@ fn tuning_trouble<const N: usize>(buffer: &[char]) -> usize {
 }
 
 fn is_unique_arr(arr: &[char]) -> bool {
-    for i in 0..(arr.len()-1) {
-        for j in (i+1)..arr.len() {
+    for i in 0..(arr.len() - 1) {
+        for j in (i + 1)..arr.len() {
             if arr[i] == arr[j] {
                 return false;
             }

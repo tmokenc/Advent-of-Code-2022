@@ -24,7 +24,7 @@ impl DirEntry {
 
 enum Command {
     Cd { arg: String },
-    Ls { output: Vec<DirEntry> }
+    Ls { output: Vec<DirEntry> },
 }
 
 #[derive(Default)]
@@ -38,13 +38,13 @@ impl NoSpaceLeftOnDevice {
         let mut current_dir = Vec::new();
         for cmd in &self.cmds {
             match cmd {
-                Command::Cd { arg } => {
-                    match arg.as_str() {
-                        "/" => current_dir.clear(),
-                        ".." => { current_dir.pop(); }
-                        v => current_dir.push(v.to_owned()),
+                Command::Cd { arg } => match arg.as_str() {
+                    "/" => current_dir.clear(),
+                    ".." => {
+                        current_dir.pop();
                     }
-                }
+                    v => current_dir.push(v.to_owned()),
+                },
 
                 Command::Ls { output } => {
                     for entry in output {
@@ -67,11 +67,15 @@ impl NoSpaceLeftOnDevice {
         for (mut path, size) in self.file_list() {
             path.pop();
             while !path.is_empty() {
-                list.entry(path.to_owned()).and_modify(|v| *v += size).or_insert(size);
+                list.entry(path.to_owned())
+                    .and_modify(|v| *v += size)
+                    .or_insert(size);
                 path.pop();
             }
 
-            list.entry(Vec::default()).and_modify(|v| *v += size).or_insert(size);
+            list.entry(Vec::default())
+                .and_modify(|v| *v += size)
+                .or_insert(size);
         }
 
         list
@@ -118,7 +122,7 @@ impl crate::AdventOfCode<usize> for NoSpaceLeftOnDevice {
     }
 
     fn part1(&self) -> usize {
-        self.dir_list().into_values().filter(|&v| v  < 100000).sum()
+        self.dir_list().into_values().filter(|&v| v < 100000).sum()
     }
 
     fn part2(&self) -> usize {
@@ -127,17 +131,13 @@ impl crate::AdventOfCode<usize> for NoSpaceLeftOnDevice {
 
         let dir_list = self.dir_list();
         let free_space = TOTAL_SPACE - dir_list.get(&Vec::default()).unwrap();
-        let mut min = usize::MAX;
 
-        for (_, size) in dir_list {
-            if size + free_space >= NEEDED_SPACE {
-                if size < min {
-                    min = size;
-                }
-            }
-        }
-
-        min
+        dir_list
+            .values()
+            .filter(|&v| v + free_space >= NEEDED_SPACE)
+            .min()
+            .copied()
+            .unwrap_or_default()
     }
 }
 

@@ -85,22 +85,27 @@ impl crate::AdventOfCode<String> for SupplyStacks {
                     stacks[instruction.to - 1].push(v);
                 }
             }
-
         }
 
-        stacks.into_iter().map(|v| v.last().copied().unwrap_or(' ')).collect()
+        stacks
+            .into_iter()
+            .map(|v| v.last().copied().unwrap_or(' '))
+            .collect()
     }
 
     fn part2(&self) -> String {
         let mut stacks = self.stacks.clone();
 
         for instruction in &self.instructions {
-            let take_from = stacks[instruction.from-1].len() - instruction.take;
+            let take_from = stacks[instruction.from - 1].len() - instruction.take;
             let arr = stacks[instruction.from - 1].split_off(take_from);
             stacks[instruction.to - 1].extend(arr);
         }
 
-        stacks.into_iter().map(|v| v.last().copied().unwrap_or(' ')).collect()
+        stacks
+            .into_iter()
+            .map(|v| v.last().copied().unwrap_or(' '))
+            .collect()
     }
 }
 

@@ -5,6 +5,7 @@ mod day04;
 mod day05;
 mod day06;
 mod day07;
+mod day08;
 
 pub mod utils;
 pub use utils::*;
@@ -123,6 +124,7 @@ fn run(day: u8) -> Option<Timing> {
         05 => day05::SupplyStacks::exec(),
         06 => day06::TuningTrouble::exec(),
         07 => day07::NoSpaceLeftOnDevice::exec(),
+        08 => day08::TreetopTreeHouse::exec(),
         26.. => {
             println!("{day} is not a valid day for AdventOfCode");
             None
@@ -195,7 +197,7 @@ fn print_benchmark(timings: [Option<Timing>; 25]) -> std::io::Result<()> {
     )?;
 
     for (timing, day) in timings.iter().zip(1..) {
-        let url = "[🔗](https://adventofcode.com/2020/day/{day})";
+        let url = "[🔗](https://adventofcode.com/2022/day/{day})";
 
         if let Some(timing) = timing {
             writeln!(

@@ -7,6 +7,7 @@ mod day06;
 mod day07;
 mod day08;
 mod day09;
+mod day10;
 
 pub mod utils;
 pub use utils::*;
@@ -127,6 +128,7 @@ fn run(day: u8) -> Option<Timing> {
         07 => day07::NoSpaceLeftOnDevice::exec(),
         08 => day08::TreetopTreeHouse::exec(),
         09 => day09::RopeBridge::exec(),
+        10 => day10::CathodeRayTube::exec(),
         26.. => {
             println!("{day} is not a valid day for AdventOfCode");
             None
